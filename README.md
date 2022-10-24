@@ -1,5 +1,5 @@
 # TICKER - тестовое задание
-![график](https://drive.google.com/file/d/1Yp4b5TPOZFAE6BDrC8I-hgWBWSeEp-3U/view?usp=sharing "график")
+![график](https://github.com/Archelunch/ticker-viz/blob/main/graph.png "график")
 
 Проект состоит из 3х модулей:
 - ticker — каждую секунду обновляет в базе данных цены
