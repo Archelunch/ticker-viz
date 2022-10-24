@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  ticker:
+    build:
+      context: ./
+      dockerfile: ./ticker/Dockerfile
+    volumes:
+      - ./ticker:/ticker
+      - ./db:/db
+    command: python -m app.app
+    env_file:
+      - ./db/.env
+    networks:
+      - default
+    depends_on:
+      - db
+
+  web:
+    build:
+      context: ./
+      dockerfile: ./web/Dockerfile
+    volumes:
+      - ./web:/web
+      - ./db:/db
+    command: gunicorn --workers=5 --threads=1 -b 0.0.0.0:8000 app.server:server
+    networks:
+      - default
+    ports:
+      - 8000:8000
+    env_file:
+      - ./db/.env
+    depends_on:
+      - db
+      - ticker
+
+  db:
+    image: postgres:13-alpine
+    networks:
+      - default
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    env_file:
+      - ./db/.env
+
+volumes:
+  postgres_data:
